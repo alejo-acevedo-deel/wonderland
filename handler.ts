@@ -1,8 +1,8 @@
-import { checkJobWork } from "./tasks/checkJobWork";
+import { checkJobWorkHandler } from "./tasks/checkJobWork";
 
-export const hello = async (event) => {
+export const checkJobExecution = async (event) => {
   try {
-    await checkJobWork();
+    await checkJobWorkHandler();
 
     return {
       statusCode: 200,

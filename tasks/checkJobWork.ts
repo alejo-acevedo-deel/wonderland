@@ -6,7 +6,7 @@ import { sendDiscordMessage } from '../services/discord';
 
 const N_BLOCKS = Number(process.env.N_BLOCKS || 10)
 
-export const checkJobWork = async () => {
+export const checkJobWorkHandler = async () => {
     const client = createPublicClient({ 
         chain: mainnet, 
         transport: http(), 

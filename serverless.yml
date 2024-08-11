@@ -13,8 +13,8 @@ provider:
     DISCORD_WEBHOOK_URL: ${ssm:/discord-webhook-url}
 
 functions:
-  hello:
-    handler: handler.hello
+  check-job-execution:
+    handler: handler.checkJobExecution
     events:
       - httpApi:
           path: /
