@@ -1,0 +1,21 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: "0xaace"
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: wonderland
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: wonderland
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  environment:
+    DEFAULT_GAS_PRICE: 60000000000
+    DISCORD_WEBHOOK_URL: ${ssm:/discord-webhook-url}
+
+functions:
+  hello:
+    handler: handler.hello
+    events:
+      - httpApi:
+          path: /
+          method: get
