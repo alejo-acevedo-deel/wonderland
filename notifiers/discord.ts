@@ -37,4 +37,13 @@ export default class Discord extends Notifier {
 
         this.send(embed)
     }
+
+    notifyFailure(error) {
+        const embed = new EmbedBuilder()
+            .setTitle('Failure')
+            .setDescription(`There was a failure trying to check jobs:\n ${error.message}`)
+            .setColor(0x00FFFF);
+
+        this.send(embed)
+    }
 }

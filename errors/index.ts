@@ -1,4 +1,4 @@
-class NotBlockNumberError extends Error {
+export class NotBlockNumberError extends Error {
     errorCode: string;
     httpCode: number;
 
@@ -9,7 +9,7 @@ class NotBlockNumberError extends Error {
     }
 }
 
-class ContractContactError extends Error {
+export class ContractContactError extends Error {
     errorCode: string;
     httpCode: number;
     contractError: Error;
