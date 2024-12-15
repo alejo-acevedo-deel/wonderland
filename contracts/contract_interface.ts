@@ -2,6 +2,7 @@ import { Abi, Address, createPublicClient, createWalletClient, http, PublicClien
 import { mainnet } from "viem/chains";
 
 import { GetEventsParams, GetLastNEventsParams, ReadContractParams } from "../types/contracts";
+import { ContractContactError, NotBlockNumberError } from "../errors";
 
 export default abstract class Contract {
   abi: Abi
@@ -51,8 +52,6 @@ export default abstract class Contract {
     if (!lastBlockNumber) throw new NotBlockNumberError();
 
     const olderBlockNumber = lastBlockNumber - n;
-
-    console.info(`Geting logs from block ${olderBlockNumber} to block ${lastBlockNumber} for job`);
 
     return this.getEvents({from: olderBlockNumber, to: lastBlockNumber, eventName});
   }
