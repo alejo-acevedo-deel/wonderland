@@ -15,11 +15,9 @@ jest.mock('viem', () => ({
     })
 }));
 
-const mockSendDiscordMessage = jest.fn();
+import Discord from '../notifiers/discord'
 
-jest.mock('../services/discord', () => ({
-    sendDiscordMessage: mockSendDiscordMessage
-}));
+jest.mock('../notifiers/discord')
 
 import { checkJobWorkHandler } from "../tasks/checkJobWork";
 import { mockEventData } from "./util"
@@ -88,8 +86,10 @@ describe('Check Job Work', () => {
             return [];
         }));
 
+        const mockedNotifyJobNotExecuted = jest.spyOn(Discord.prototype, 'notifyJobNotExecuted')
+
         await checkJobWorkHandler();
 
-        expect(mockSendDiscordMessage).toHaveBeenCalledWith(['0xaddressJob2'], 10);
+        expect(mockedNotifyJobNotExecuted).toHaveBeenCalledWith(['0xaddressJob2'], 10);
     })
 })
