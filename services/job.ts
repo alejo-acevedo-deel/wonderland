@@ -1,14 +1,21 @@
-import { PublicClient, Address } from "viem";
-import { getEvents } from "../contracts/job";
+import { Address } from "viem";
+import Job from "../contracts/job";
 
-export const getLastNBlocksLogs = async (n: bigint, jobAddress: Address, client: PublicClient) => {
-    const lastBlockNumber = await client.getBlockNumber();
+const getEvents = async (n: bigint, jobAddress: Address) => {
+    try {
+        const job = new Job(jobAddress);
+        const events = await job.getWorkEvents(n);
 
-    if (!lastBlockNumber) throw new NotBlockNumberError();
+        return {success: true, jobAddress, events};
+    } catch (error) {
+        console.warn(`Error getting job events: ${error.message} for job ${jobAddress}`);
 
-    const olderBlockNumber = lastBlockNumber - n;
+        return {success: false, jobAddress, error};
+    }
+}
 
-    console.info(`Geting logs from block ${olderBlockNumber} to block ${lastBlockNumber} for job ${jobAddress}`);
+export const getLastNBlocksLogs = async (n: bigint, jobAddresses: Address[]) => {
+    const promiseResults = jobAddresses.map(addres => getEvents(n, addres));
 
-    return getEvents({from: olderBlockNumber, to: lastBlockNumber}, {client, address: jobAddress});
+    return await Promise.all(promiseResults);
 }
