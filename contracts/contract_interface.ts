@@ -31,6 +31,10 @@ export default abstract class Contract {
     }
   }
 
+  /*
+  ** Viem Multicall use Multicall contract to avoid many RCP calls https://viem.sh/docs/contract/multicall#multicall
+  ** We could also use Deployless Multicall for chains without Multicall contract https://github.com/Destiner/deployless-multicall
+  */
   async multicall(params: ReadContractParams[]) {
     const multicallParams = params.map(p => ({
       ...p,
